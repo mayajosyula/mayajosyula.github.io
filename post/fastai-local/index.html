@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Attempt to run fast.ai notebooks locally</title>
+        
+        <style>
+
+    html body {
+        font-family: 'Roboto', sans-serif;
+        background-color: white;
+    }
+
+    :root {
+        --accent: purple;
+        --border-width:  0 ;
+    }
+
+</style>
+
+
+<link rel="stylesheet" href="https://mayajosyula.github.io/css/main.css">
+
+
+
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+
+
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/ocean.min.css"> 
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+ 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<script>$(document).on('click', function() { $('.collapse').collapse('hide'); })</script>
+ <meta name="generator" content="Hugo 0.83.0" />
+        
+
+        
+
+        
+            <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+
+        
+
+    </head>
+
+    <body>
+        
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand visible-xs" href="#">Attempt to run fast.ai notebooks locally</a>
+                    <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+                    
+                        <ul class="nav navbar-nav">
+                            
+                                <li><a href="/">Home</a></li>
+                            
+                                <li><a href="/post/">Blog</a></li>
+                            
+                                <li><a href="/project/">Projects</a></li>
+                            
+                                <li><a href="/static/resume.pdf">Resume</a></li>
+                            
+                        </ul>
+                    
+                    
+                        <ul class="nav navbar-nav navbar-right">
+                            
+                                <li class="navbar-icon"><a href="https://github.com/mayajosyula/"><i class="fab fa-github"></i></a></li>
+                            
+                                <li class="navbar-icon"><a href="https://www.linkedin.com/in/maya-josyula/"><i class="fab fa-linkedin"></i></a></li>
+                            
+                        </ul>
+                    
+                </div>
+            </div>
+        </nav>
+
+
+<main>
+
+    <div>
+        <h2>Attempt to run fast.ai notebooks locally</h2>
+        <h5>April 7, 2021</h5>
+        
+<a href="https://mayajosyula.github.io/tags/recurse-center"><kbd class="item-tag">recurse-center</kbd></a>
+
+<a href="https://mayajosyula.github.io/tags/fastai"><kbd class="item-tag">fastai</kbd></a>
+
+<a href="https://mayajosyula.github.io/tags/pytorch"><kbd class="item-tag">pytorch</kbd></a>
+
+<a href="https://mayajosyula.github.io/tags/gpu"><kbd class="item-tag">gpu</kbd></a>
+
+
+    </div>
+
+    <div align="start" class="content"><p>These are some notes from my attempt to install fastai and fastbook locally and run the Jupyter notebooks from the fast.ai course using my laptop, instead of using a service like Paperspace Gradient or Google Colab. It didn&rsquo;t completely work, so I might try again later.</p>
+<p><strong>Summary</strong></p>
+<ul>
+<li>It is possible to install fastai on Windows 10.</li>
+<li>It is possible to get PyTorch to recognize the GPU on a laptop.</li>
+<li>A 2GB GPU does not appear to be enough memory to run fast.ai notebooks locally, even if you clear cache beforehand, but this can be mitigated by reducing batch size.</li>
+<li>The laptop may be using the CPU whenever it&rsquo;s available, even if you try to force it to use the GPU with <code>learn.model.cuda()</code> (but I&rsquo;m not sure about this).</li>
+</ul>
+<h2 id="why-i-was-motivated-to-try-this">Why I was motivated to try this</h2>
+<ul>
+<li>I wanted to do the <a href="http://course.fast.ai">fast.ai course</a></li>
+<li>Getting GPU instances on Paperspace Gradient is annoyingly difficult unless you pay</li>
+<li>My laptop has a NVIDIA graphics card</li>
+<li>Even if it doesn&rsquo;t work in the end, being able to run PyTorch locally on a GPU might be useful in general.</li>
+</ul>
+<h3 id="what-i-had-originally">What I had originally</h3>
+<ul>
+<li>Windows 10</li>
+<li>Anaconda 3</li>
+<li>Python version: 3.8.5</li>
+<li>PyTorch version: 1.8.1</li>
+</ul>
+<p>I ended up having to downgrade my PyTorch version anyway in order for fastai to work properly, so having Anaconda/Python was the only important thing.</p>
+<p>My laptop&rsquo;s graphics card is a <strong>NVIDIA GeForce MX150</strong> - found this out by launching Device Manager and clicking on &ldquo;Display adapters&rdquo;.</p>
+<h2 id="installation">Installation</h2>
+<h3 id="cuda">CUDA</h3>
+<p><a href="https://developer.nvidia.com/cuda-10.2-download-archive?target_os=Windows&amp;target_arch=x86_64&amp;target_version=10&amp;target_type=exelocal">Here is the page</a> for CUDA version 10.2, which is a 2.6GB exe file. (There are also two patches that need to be installed on top of that.)</p>
+<p><strong>Visual Studio</strong>   Looking around, it seems like NVIDIA CUDA requires Microsoft Visual Studio. So I ended up installing the free Community edition of Visual Studio, just the core editor with no add-ons. I had already installed the Visual Studio build tools a while ago for something else — maybe the build tools were really all I needed, but I thought I&rsquo;d play it safe.</p>
+<p>First installed the &ldquo;Express&rdquo; version of CUDA, which was the recommended one, then installed the two patches. It was pretty straightforward and went the same way installing things usually works on Windows (download exe file, launch installer, etc).</p>
+<h3 id="cudnn">cuDNN</h3>
+<p>Getting cuDNN requires participation in the NVIDIA Developer Program, which needs a NVIDIA account. After clicking on a lot of pictures of trucks to prove I&rsquo;m human and verifying my email, there was a page that asked for my name and organization details, and then at the bottom is a checkbox that signs you up for the NVIDIA Developer Program if you select it.</p>
+<p><a href="https://developer.nvidia.com/rdp/cudnn-download">Here is the download page</a> for cuDNN. The download is a .zip file, and if you extract it and open it up, you&rsquo;ll find three subdirectories: <code>bin</code>, <code>include</code>, and <code>lib</code>, each with a bunch of .dll files in them.</p>
+<p>These files need to go into the CUDA installation. There is probably an efficient way to do this (maybe involving path variables or something?) but I went with the manual approach. If you navigate to where your CUDA files are (for me it was <code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2</code>, which is the default) you will see a bunch of folders. Three of them are  <code>bin</code>, <code>include</code>, and <code>lib</code>, and you can just copy all the .dll files from cuDNN&rsquo;s <code>bin</code> folder into CUDA&rsquo;s <code>bin</code> folder, then do the same with <code>include</code> and <code>lib</code>.</p>
+<p>That seems to be all you have to do.</p>
+<h3 id="pytorch">PyTorch</h3>
+<p>It seems like (at least on Windows 10) fast.ai doesn&rsquo;t support the newest stable PyTorch version. So I had to downgrade to version 1.7.1. This was pretty easy to do:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">conda install pytorch<span style="color:#f92672">==</span>1.7.1 torchvision<span style="color:#f92672">==</span>0.8.2 torchaudio<span style="color:#f92672">==</span>0.7.2 cudatoolkit<span style="color:#f92672">=</span>10.2 -c pytorch 
+</code></pre></div><h3 id="fastai">fastai</h3>
+<p>Surprisingly enough, this was also pretty easy to do - probably because all the dependencies were taken care of beforehand. Installing <code>jupyter_contrib_nbextensions</code> was mostly just to be safe because of all the Jupyter notebooks — it might not have been necessary.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pip install jupyter_contrib_nbextensions 
+pip install fastai
+</code></pre></div><p>No errors! :)</p>
+<h2 id="testing-it-out">Testing it out</h2>
+<h3 id="pytorch-is-recognizing-the-gpu">PyTorch is recognizing the GPU!</h3>
+<p>You can check this with the Python interpreter.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">import</span> torch
+<span style="color:#f92672">&gt;&gt;&gt;</span> torch<span style="color:#f92672">.</span>cuda<span style="color:#f92672">.</span>is_available()
+True
+<span style="color:#f92672">&gt;&gt;&gt;</span> torch<span style="color:#f92672">.</span>cuda<span style="color:#f92672">.</span>current_device()
+<span style="color:#ae81ff">0</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> torch<span style="color:#f92672">.</span>cuda<span style="color:#f92672">.</span>device_count()
+<span style="color:#ae81ff">1</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> torch<span style="color:#f92672">.</span>cuda<span style="color:#f92672">.</span>get_device_name(<span style="color:#ae81ff">0</span>)
+<span style="color:#e6db74">&#39;GeForce MX150&#39;</span>
+</code></pre></div><h3 id="launching-the-fastai-course-notebooks">Launching the fast.ai course notebooks</h3>
+<p>The course notebooks can be found on the <a href="https://github.com/fastai/fastbook">fastai book GitHub page</a>. I downloaded the repository as a .zip file, then just launched Jupyter Notebooks and opened the notebook files up, and they seemed to display fine.</p>
+<h3 id="installing-fastbook-and-graphviz">Installing fastbook and graphviz</h3>
+<p>Selecting the very first cell of Lesson 1 and trying to run it immediately gave an error saying something along the lines of &ldquo;missing <code>graphviz</code> — please run <code>conda install fastbook</code>&rdquo;.</p>
+<p>This was really misleading, because running <code>conda install fastbook</code> and variations of that ended up giving me errors. The <a href="http://forums.fast.ai">fast.ai forums</a> has a bunch of threads discussing it, all with different fixes that ended up working for different people? Maybe it&rsquo;s a computer-specific thing. The fix that worked for me was adding <code>!pip install graphviz</code> to the second line of the Jupyter notebook. So now the first cell looks like:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#hide</span>
+<span style="color:#960050;background-color:#1e0010">!</span>pip install <span style="color:#f92672">-</span>Uqq fastbook
+<span style="color:#960050;background-color:#1e0010">!</span>pip install graphviz
+<span style="color:#f92672">import</span> fastbook
+fastbook<span style="color:#f92672">.</span>setup_book()
+</code></pre></div><p>Then running the first and second cells worked without any problems.</p>
+<h2 id="cat-and-dog-related-issues-lesson-1">Cat and dog-related issues (Lesson 1)</h2>
+<p>The next thing I did was skip to the part of the notebook that actually trains a model, which is the cat/dog classification system. Running that cell also threw a bunch of errors.</p>
+<h3 id="issue-1-found-at-least-two-devices-cuda0-and-cpu-solved">Issue 1: found at least two devices, cuda:0 and cpu (solved)</h3>
+<p>Not entirely sure what causes this error, but it seems like it&rsquo;s happening because some tensors are stored on the CPU and some are stored on the GPU, so not all of the data is accessible? I&rsquo;m not sure, though.</p>
+<p>One of the forum threads had a fix for this. It involves changing the <code>fastai</code> code, which is pretty ridiculous but it does work? If you navigate to the fastai library (for me it was under <code>anaconda3\Lib\site-packages\fastai</code>), and then go to the <code>data</code> folder and open the file <code>load.py</code>, there is a function called <code>__iter__</code> on line 105:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> __iter__(self):
+    self<span style="color:#f92672">.</span>randomize()
+    self<span style="color:#f92672">.</span>before_iter()
+    self<span style="color:#f92672">.</span>__idxs<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>get_idxs() <span style="color:#75715e"># called in context of main process (not workers/subprocesses)</span>
+    <span style="color:#66d9ef">for</span> b <span style="color:#f92672">in</span> _loaders[self<span style="color:#f92672">.</span>fake_l<span style="color:#f92672">.</span>num_workers<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>](self<span style="color:#f92672">.</span>fake_l):
+        <span style="color:#75715e"># fix issue 2899. If the process start method isn&#39;t fork, the data will be copied to cuda in learner one_batch.</span>
+        <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>device <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> None <span style="color:#f92672">and</span> multiprocessing<span style="color:#f92672">.</span>get_start_method()<span style="color:#f92672">.</span>lower() <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;fork&#34;</span>:
+            b <span style="color:#f92672">=</span> to_device(b, self<span style="color:#f92672">.</span>device)
+        <span style="color:#66d9ef">yield</span> self<span style="color:#f92672">.</span>after_batch(b)
+    self<span style="color:#f92672">.</span>after_iter()
+    <span style="color:#66d9ef">if</span> hasattr(self, <span style="color:#e6db74">&#39;it&#39;</span>): <span style="color:#66d9ef">del</span>(self<span style="color:#f92672">.</span>it)
+</code></pre></div><p>You need to get rid of the <code>multiprocessing.get_start_method().lower() == &quot;fork&quot;</code> in the first if-statement. So that bit turns into:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">for</span> b <span style="color:#f92672">in</span> _loaders[self<span style="color:#f92672">.</span>fake_l<span style="color:#f92672">.</span>num_workers<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>](self<span style="color:#f92672">.</span>fake_l):
+        <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>device <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> None:
+            b <span style="color:#f92672">=</span> to_device(b, self<span style="color:#f92672">.</span>device)
+        <span style="color:#66d9ef">yield</span> self<span style="color:#f92672">.</span>after_batch(b)
+</code></pre></div><p>Not sure what to think about this &ldquo;fix&rdquo;. It&rsquo;s essentially treating this as a bug with fastai instead of a problem with the way things were configured. Which I&rsquo;m not convinced is the right way to be debugging code. For now though, I just went ahead and changed it.</p>
+<h3 id="issue-2-cuda-out-of-memory-error-partially-solved">Issue 2: CUDA out of memory error (partially solved)</h3>
+<p>Fixing the above problem instantly resulted in this one. In one way it&rsquo;s kind of reassuring, because it means the notebook is clearly trying to use the GPU in some way. But it&rsquo;s also annoying, because I can&rsquo;t find an easy way to give myself more memory.</p>
+<p>The graphics card had 2 GB of memory, and the consensus on the forums seems to be that that&rsquo;s not enough. I tried restarting the kernel and also tried running <code>torch.cuda.empty_cache()</code> in the hope that clearing the cache would help, but that didn&rsquo;t free up enough.</p>
+<p>Then I learned about batch size. Apparently it&rsquo;s a parameter for the number of training examples that are used in one iteration, and it defaults to 64. You can adjust it to whatever you want by setting <code>bs</code> when reading in the dataset, and smaller batch sizes use less memory:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">is_cat</span>(x): <span style="color:#66d9ef">return</span> x[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>isupper()
+dls <span style="color:#f92672">=</span> ImageDataLoaders<span style="color:#f92672">.</span>from_name_func(
+    path, get_image_files(path), valid_pct<span style="color:#f92672">=</span><span style="color:#ae81ff">0.2</span>, seed<span style="color:#f92672">=</span><span style="color:#ae81ff">42</span>,
+    label_func<span style="color:#f92672">=</span>is_cat, item_tfms<span style="color:#f92672">=</span>Resize(<span style="color:#ae81ff">224</span>), bs<span style="color:#f92672">=</span><span style="color:#ae81ff">8</span>) <span style="color:#75715e"># bs = batch size</span>
+</code></pre></div><p>Just keep halving the values until there are no longer out of memory errors. It ended up working for me with a batch size of 8, though it might be good to fine-tune that a little more if possible.</p>
+<h3 id="issue-3-cpu-is-being-used-instead-of-gpu-according-to-task-manager-needs-investigation">Issue 3: CPU is being used instead of GPU according to Task Manager (needs investigation)</h3>
+<p>After changing the batch size, the cat/dog cell does run! It takes a while though — close to 10-15 minutes. I&rsquo;m not sure if it&rsquo;s solely a hardware problem, a low batch size problem, or if the laptop is using the CPU instead of the GPU.</p>
+<p>I tried rerunning the cat/dog cell and simultaneously opened up Task Manager, which said that Python&rsquo;s usage was somewhere around 40% CPU and 0.1% GPU. If that&rsquo;s accurate, it seems like the GPU on the laptop is kind of &ldquo;overflow&rdquo; for the CPU in some way? In that if a task uses too much processing power, the system migrates to using the GPU automatically, but uses the CPU whenever it can. Maybe that&rsquo;s incorrect though, and/or Task Manager isn&rsquo;t accurate.</p>
+<p>The fast.ai forums say that you can force the model to use the GPU by calling <code>learn.model.cuda()</code> beforehand. This didn&rsquo;t appear to change anything, though. The entire cell looks like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#id first_training</span>
+<span style="color:#75715e">#caption Results from the first training</span>
+<span style="color:#75715e"># CLICK ME</span>
+<span style="color:#f92672">from</span> fastai.vision.all <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+path <span style="color:#f92672">=</span> untar_data(URLs<span style="color:#f92672">.</span>PETS)<span style="color:#f92672">/</span><span style="color:#e6db74">&#39;images&#39;</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">is_cat</span>(x): <span style="color:#66d9ef">return</span> x[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>isupper()
+dls <span style="color:#f92672">=</span> ImageDataLoaders<span style="color:#f92672">.</span>from_name_func(
+    path, get_image_files(path), valid_pct<span style="color:#f92672">=</span><span style="color:#ae81ff">0.2</span>, seed<span style="color:#f92672">=</span><span style="color:#ae81ff">42</span>,
+    label_func<span style="color:#f92672">=</span>is_cat, item_tfms<span style="color:#f92672">=</span>Resize(<span style="color:#ae81ff">224</span>), bs<span style="color:#f92672">=</span><span style="color:#ae81ff">8</span>)
+
+learn <span style="color:#f92672">=</span> cnn_learner(dls, resnet34, metrics<span style="color:#f92672">=</span>error_rate)
+learn<span style="color:#f92672">.</span>model<span style="color:#f92672">.</span>cuda() <span style="color:#75715e"># this is the added line</span>
+learn<span style="color:#f92672">.</span>fine_tune(<span style="color:#ae81ff">1</span>)
+</code></pre></div><h2 id="places-to-go-from-here">Places to go from here?</h2>
+<p>There are three options as far as I can tell:</p>
+<ul>
+<li>Give up and go back to Paperspace Gradient, or</li>
+<li>keep trying to get this to work, or</li>
+<li>keep going through the rest of the lessons with the settings I have, and see how far I get.</li>
+</ul>
+<p>Don&rsquo;t really know how to fix the memory issues, aside from paying for a better GPU (not ideal). Using smaller batch sizes did seem like it worked for Lesson 1 at least, but future lessons will probably have larger models so it&rsquo;s likely not a long-term fix.</p>
+<p>The CPU vs GPU problem should be fixable, though — I think I just need to figure out the right settings/functions for it. Hopefully continuing to search the fast.ai forums will eventually yield an alternative solution.</p>
+<p>Either way, I did learn a lot from attempting to do this, and I also gained a new appreciation for how useful the fast.ai forums are — there are so many people who have taken the course that the chances of someone else running into your exact issue are pretty high!</p>
+<hr>
+<p><strong>References:</strong></p>
+<p><a href="https://lazyprogrammer.me/how-to-setup-nvidia-gpu-laptop-with-ubuntu-for-deep-learning-cuda-and-cudnn/">https://lazyprogrammer.me/how-to-setup-nvidia-gpu-laptop-with-ubuntu-for-deep-learning-cuda-and-cudnn/</a></p>
+<p><a href="https://towardsdatascience.com/intro-to-fastai-installation-and-building-our-first-classifier-938e95fd97d3">https://towardsdatascience.com/intro-to-fastai-installation-and-building-our-first-classifier-938e95fd97d3</a></p>
+<p><a href="https://towardsdatascience.com/an-utterly-simple-guide-on-installing-tensorflow-gpu-2-0-on-windows-10-198368dc07a1">https://towardsdatascience.com/an-utterly-simple-guide-on-installing-tensorflow-gpu-2-0-on-windows-10-198368dc07a1</a></p>
+<p><a href="https://stackoverflow.com/questions/48152674/how-to-check-if-pytorch-is-using-the-gpu">https://stackoverflow.com/questions/48152674/how-to-check-if-pytorch-is-using-the-gpu</a></p>
+<p><a href="https://forums.fast.ai/t/resolving-issues-with-fastai-on-windows-10-anaconda-due-to-torch-1-8/86875">https://forums.fast.ai/t/resolving-issues-with-fastai-on-windows-10-anaconda-due-to-torch-1-8/86875</a></p>
+<p><a href="https://forums.fast.ai/t/missing-graphviz-please-run-conda-install-fastbook/77260/24">https://forums.fast.ai/t/missing-graphviz-please-run-conda-install-fastbook/77260/24</a></p>
+<p><a href="https://forums.fast.ai/t/part1-2020-02-production-found-at-least-two-devices-cuda-0-and-cpu/87253">https://forums.fast.ai/t/part1-2020-02-production-found-at-least-two-devices-cuda-0-and-cpu/87253</a></p>
+<p><a href="https://forums.fast.ai/t/cuda-out-of-memory/45499/4">https://forums.fast.ai/t/cuda-out-of-memory/45499/4</a></p>
+<hr>
+<p><em>Created while participating at the <a href="https://www.recurse.com/">Recurse Center</a>!</em></p>
+<hr>
+</div>
+
+    
+    
+    
+        <h4 class="page-header">Related</h4>
+         <div class="item">
+
+    
+    
+    
+
+    
+    
+
+    <h4><a href="/post/emotion-circles/">Generative art from emotions</a></h4>
+    <h5>April 30, 2021</h5>
+    
+<a href="https://mayajosyula.github.io/tags/recurse-center"><kbd class="item-tag">recurse-center</kbd></a>
+
+<a href="https://mayajosyula.github.io/tags/p5js"><kbd class="item-tag">p5js</kbd></a>
+
+<a href="https://mayajosyula.github.io/tags/art"><kbd class="item-tag">art</kbd></a>
+
+<a href="https://mayajosyula.github.io/tags/emotion"><kbd class="item-tag">emotion</kbd></a>
+
+
+
+</div>
+ 
+    
+
+    
+    
+
+</main>
+
+        <footer>
+            <p class="copyright text-muted">© All rights reserved. Powered by <a href="https://gohugo.io">Hugo</a> and <a href="https://github.com/calintat/minimal">Minimal</a>.</p>
+        </footer>
+
+        
+
+        
+    </body>
+
+</html>
+

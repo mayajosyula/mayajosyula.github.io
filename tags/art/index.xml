@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>art on Maya Josyula</title>
+    <link>https://mayajosyula.github.io/tags/art/</link>
+    <description>Recent content in art on Maya Josyula</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 30 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mayajosyula.github.io/tags/art/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Generative art from emotions</title>
+      <link>https://mayajosyula.github.io/post/emotion-circles/</link>
+      <pubDate>Fri, 30 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mayajosyula.github.io/post/emotion-circles/</guid>
+      <description>I&amp;rsquo;ve been experimenting with p5.js, a JavaScript library for creative coding, and made a project that scans user-given text and draws varying color/intensity circles based on its associated emotions.
+Here&amp;rsquo;s a link to the final result in the p5.js editor. Replace line 3 of sketch.js with your own text and see what you get! (Results may vary.)
+Example
+Input: &amp;quot;Fear is a strange soil. It grows obedience like corn, which grow in straight lines to make weeding easier.</description>
+    </item>
+    
+  </channel>
+</rss>
