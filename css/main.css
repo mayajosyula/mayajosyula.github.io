@@ -5,7 +5,7 @@ html, body {
 body {
     padding-top: 55px;
     display: flex;
-    /* text-align: center; */
+    text-align: center;
     flex-direction: column;
 }
 
@@ -28,7 +28,7 @@ img {
 
 .intro > h1 {
     color: #212121;
-    font-size: 12vh;
+    font-size: 10vh;
     text-align: center;
 }
 
@@ -43,6 +43,7 @@ img {
 .content {
     padding-top: 20px;
     font-size: 18px;
+    text-align: left;
 }
 
 /* Profile picture */
