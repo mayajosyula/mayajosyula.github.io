@@ -1,159 +1,57 @@
 <!DOCTYPE html>
-<html lang="en-us">
-    <head>
-        
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tagged emotion</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <link rel="icon" type="image/png" href="/static/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/static/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/static/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="/static/favicon/site.webmanifest" />
+  </head>
 
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>emotion</title>
-        
-        <style>
+  <body>
+    <header>
+      <nav>
+        <a class="relative" href="/">Home</a>
+        <a class="relative" href="/posts">Posts</a>
+        <a class="relative" href="/projects">Projects</a>
+        <a class="relative" href="/static/resume-public.pdf">Resume</a>
+        <a class="relative" href="/sitemap">Sitemap</a>
+      </nav>
+      <div>
+        <a href="https://github.com/mayajosyula">GitHub</a>
+        <a href="https://www.linkedin.com/in/maya-josyula">LinkedIn</a>
+      </div>
+    </header>
+    <main>
+      <h1>Tagged <em>emotion</em></h1>
 
-    html body {
-        font-family: 'Roboto', sans-serif;
-        background-color: white;
-    }
+      <div class="box-posts">
+        <div class="box-post">
+          <a href="/posts/emotion-circles/">Generative art from emotions</a>
+          April 30, 2021
+          <div class="box-tag">
+            <span>tags:</span>
 
-    :root {
-        --accent: purple;
-        --border-width:  0 ;
-    }
+            <a href="/tags/recursecenter">recursecenter</a>
 
-</style>
+            <a href="/tags/p5js">p5js</a>
 
+            <a href="/tags/art">art</a>
 
-<link rel="stylesheet" href="https://mayajosyula.github.io/css/main.css">
+            <a href="/tags/emotion">emotion</a>
+          </div>
+        </div>
+      </div>
+    </main>
 
-
-
-
-
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
-
-
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/ocean.min.css"> 
-
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" crossorigin="anonymous">
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
- 
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-    
-    <script>hljs.initHighlightingOnLoad();</script>
-
-
-
-
-
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-
-<script>$(document).on('click', function() { $('.collapse').collapse('hide'); })</script>
- <meta name="generator" content="Hugo 0.83.0" />
-        
-            <link href="/tags/emotion/index.xml" rel="alternate" type="application/rss&#43;xml" title="Maya Josyula" />
-            <link href="/tags/emotion/index.xml" rel="feed" type="application/rss&#43;xml" title="Maya Josyula" />
-        
-
-        
-
-        
-            <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        
-
-        
-
-    </head>
-
-    <body>
-        
-
-        <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <a class="navbar-brand visible-xs" href="#">emotion</a>
-                    <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                </div>
-                <div class="collapse navbar-collapse">
-                    
-                        <ul class="nav navbar-nav">
-                            
-                                <li><a href="/">Home</a></li>
-                            
-                                <li><a href="/post/">Blog</a></li>
-                            
-                                <li><a href="/project/">Projects</a></li>
-                            
-                                <li><a href="/static/resume.pdf">Resume</a></li>
-                            
-                        </ul>
-                    
-                    
-                        <ul class="nav navbar-nav navbar-right">
-                            
-                                <li class="navbar-icon"><a href="https://github.com/mayajosyula/"><i class="fab fa-github"></i></a></li>
-                            
-                                <li class="navbar-icon"><a href="https://www.linkedin.com/in/maya-josyula/"><i class="fab fa-linkedin"></i></a></li>
-                            
-                        </ul>
-                    
-                </div>
-            </div>
-        </nav>
-
-
-<main>
-
-    <h2>emotion</h2>
-
-     <div class="item">
-
-    
-    
-    
-
-    
-    
-
-    <h4><a href="/post/emotion-circles/">Generative art from emotions</a></h4>
-    <h5>April 30, 2021</h5>
-    
-<a href="https://mayajosyula.github.io/tags/recurse-center"><kbd class="item-tag">recurse-center</kbd></a>
-
-<a href="https://mayajosyula.github.io/tags/p5js"><kbd class="item-tag">p5js</kbd></a>
-
-<a href="https://mayajosyula.github.io/tags/art"><kbd class="item-tag">art</kbd></a>
-
-<a href="https://mayajosyula.github.io/tags/emotion"><kbd class="item-tag">emotion</kbd></a>
-
-
-
-</div>
- 
-
-</main>
-
-
-
-        <footer>
-            <p class="copyright text-muted">© All rights reserved. Powered by <a href="https://gohugo.io">Hugo</a> and <a href="https://github.com/calintat/minimal">Minimal</a>.</p>
-        </footer>
-
-        
-
-        
-    </body>
-
+    <footer>
+      <hr />
+      <p>All views expressed here are my own.</p>
+      <p><a href="https://www.11ty.dev/">Made with Eleventy</a></p>
+    </footer>
+  </body>
 </html>
-

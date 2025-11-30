@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generative art from emotions</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <link rel="stylesheet" href="/static/css/prism.css" />
+    <link rel="icon" type="image/png" href="/static/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/static/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/static/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="/static/favicon/site.webmanifest" />
+  </head>
+
+  <body>
+    <header>
+      <nav>
+        <a class="relative" href="/">Home</a>
+        <a class="relative" href="/posts">Posts</a>
+        <a class="relative" href="/projects">Projects</a>
+        <a class="relative" href="/static/resume-public.pdf">Resume</a>
+        <a class="relative" href="/sitemap">Sitemap</a>
+      </nav>
+      <div>
+        <a href="https://github.com/mayajosyula">GitHub</a>
+        <a href="https://www.linkedin.com/in/maya-josyula">LinkedIn</a>
+      </div>
+    </header>
+    <main>
+      <div class="post-header">
+        <h1>Generative art from emotions</h1>
+        April 30, 2021
+
+        <div class="box-tag">
+          <a href="/tags/recursecenter">recursecenter</a>
+
+          <a href="/tags/p5js">p5js</a>
+
+          <a href="/tags/art">art</a>
+
+          <a href="/tags/emotion">emotion</a>
+        </div>
+      </div>
+
+      <p>
+        I’ve been experimenting with <a href="https://p5js.org/">p5.js</a>, a JavaScript library for creative coding,
+        and made a project that scans user-given text and draws varying color/intensity circles based on its associated
+        emotions.
+      </p>
+      <p>
+        <a href="https://editor.p5js.org/endmysoup/sketches/HNKHibSu2"
+          >Here’s a link to the final result in the p5.js editor</a
+        >. Replace line 3 of <code>sketch.js</code> with your own text and see what you get! (Results may vary.)
+      </p>
+      <p><strong>Example</strong></p>
+      <p>
+        Input:
+        <code
+          >&quot;Fear is a strange soil. It grows obedience like corn, which grow in straight lines to make weeding
+          easier. But sometimes it grows the potatoes of defiance, which flourish underground.&quot;</code
+        >
+      </p>
+      <figure class="left">
+        <p>
+          <picture
+            ><source
+              type="image/webp"
+              srcset="
+                /.11ty/image/?src=src%2Fstatic%2Fimages%2Ffear-soil.png&width=300&format=webp&via=transform 300w,
+                /.11ty/image/?src=src%2Fstatic%2Fimages%2Ffear-soil.png&width=400&format=webp&via=transform 400w
+              "
+              sizes="auto" />
+            <img
+              loading="lazy"
+              decoding="async"
+              src="/.11ty/image/?src=src%2Fstatic%2Fimages%2Ffear-soil.png&width=300&format=png&via=transform"
+              alt="fear soil image"
+              width="400"
+              height="359"
+              srcset="
+                /.11ty/image/?src=src%2Fstatic%2Fimages%2Ffear-soil.png&width=300&format=png&via=transform 300w,
+                /.11ty/image/?src=src%2Fstatic%2Fimages%2Ffear-soil.png&width=400&format=png&via=transform 400w
+              "
+              sizes="auto"
+          /></picture>
+        </p>
+      </figure>
+      <h2>Extracting emotions from text</h2>
+      <p>There were two potential options for going about this:</p>
+      <ul>
+        <li>Find a pre-existing database of words and emotions, and do a word-by-word comparison (not ideal).</li>
+        <li>Find or create some sort of NLP model that learns/identifies emotion in text.</li>
+      </ul>
+      <p>
+        NLP is used for sentiment analysis, but there don’t seem to be any models that extend this to specific emotions
+        (for example, distinguishing between anger and sadness instead of just classifying both as negative sentiment).
+        There also aren’t any good sources of labeled training data for this problem, so creating a model from scratch
+        didn’t seem like a feasible option either.
+      </p>
+      <p>
+        So I ended up going with option 1. (Shelved option 2 to try again later, if I end up thinking of a good way to
+        get training data.)
+      </p>
+      <h3>Emotion lexicons</h3>
+      <p>
+        The chosen lexicon needed to 1) include emotions instead of just sentiment, and 2) be free. This ruled out a lot
+        of options.
+      </p>
+      <p>
+        The most widely used (free) emotion lexicon is the
+        <a href="https://saifmohammad.com/WebPages/NRC-Emotion-Lexicon.htm">NRC Word-Emotion Association Lexicon</a>
+        from the National Research Council Canada, and this is what I settled on. The dataset was created manually by
+        crowdsourcing. It’s unclear what (if any) accuracy checks were done on it – it would probably be near-impossible
+        to do any kind of validation, since emotional connotations are highly subjective anyway.
+      </p>
+      <p>
+        The NRC Emotion Lexicon is available as a Python module and R also has support for it, but I couldn’t find a
+        good JavaScript-specific version or format. So I just made one myself.
+      </p>
+      <h3>Loading and using the NRC Emotion Lexicon</h3>
+      <p>
+        The data can be downloaded directly from the link above. The specific file of interest is called
+        <code>NRC-Emotion-Lexicon-Wordlevel-v0.92.txt</code> and is a basic list of words and associated emotions. It
+        looks something like this:
+      </p>
+      <pre class="language-bash"><code class="language-bash">aback anger <span class="token number">0</span>
+aback anticipation <span class="token number">0</span>
+aback disgust <span class="token number">0</span>
+aback fear <span class="token number">0</span>
+aback joy <span class="token number">0</span>
+aback negative <span class="token number">0</span>
+aback positive <span class="token number">0</span>
+aback sadness <span class="token number">0</span>
+aback surprise <span class="token number">0</span>
+aback trust <span class="token number">0</span>
+abacus anger <span class="token number">0</span></code></pre>
+      <p>
+        Every word has 8 possible emotions (anger, anticipation, disgust, fear, joy, sadness, surprise, trust) and 2
+        possible sentiments (positive, negative). Entries in the third column are either 1 or 0, denoting whether or not
+        there is an association between the word and the amotion.
+      </p>
+      <p>
+        Converting the above text file to JSON resulted in something like this, with each word associated to a list of
+        emotions:
+      </p>
+      <pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"abacus"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"trust"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"abandon"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"fear"</span><span class="token punctuation">,</span> <span class="token string">"negative"</span><span class="token punctuation">,</span> <span class="token string">"sadness"</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span></code></pre>
+      <p>
+        This file (<code>emotions.json</code>) was then loaded into the p5.js script. To get the emotional content of a
+        string, every individual word was compared against this list and results for all the common words were added up.
+      </p>
+      <p>
+        Using this process, the string shown earlier (“Fear is a strange soil. It grows obedience like corn, which grow
+        in straight lines to make weeding easier. But sometimes it grows the potatoes of defiance, which flourish
+        underground.&quot;) has the following emotions:
+      </p>
+      <pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"anger"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+  <span class="token property">"anticipation"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+  <span class="token property">"disgust"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+  <span class="token property">"fear"</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+  <span class="token property">"joy"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+  <span class="token property">"sadness"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">"surprise"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">"trust"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+  <span class="token property">"positive"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+  <span class="token property">"negative"</span><span class="token operator">:</span> <span class="token number">3</span>
+<span class="token punctuation">}</span></code></pre>
+      <p>
+        The result is a bit mixed, with “fear” and “negative” being the strongest but with some positive emotions
+        included as well. Seems fairly accurate for the quote.
+      </p>
+      <h2>Drawing circles with p5.js</h2>
+      <p>I had zero experience with p5.js going into this and ended up having a lot of fun with it!</p>
+      <h3>Code this was based on</h3>
+      <p>
+        <a href="https://kellylougheed.medium.com/generative-art-with-p5-js-program-your-own-art-6a6ac7e57d87"
+          >This tutorial</a
+        >
+        is an introduction to generative art with p5.js and was the basis for the circle art in this project. It was a
+        pretty simple piece of code – around 5 lines – that drew 1000 different colored circles on the canvas. Each
+        circle was filled with a randomly generated RGB value and transparency (alpha), had a randomly generated size,
+        and was drawn at a randomly picked location.
+      </p>
+      <p>The next step was to use the generated emotions to vary the colors of the circles.</p>
+      <h3>The final circle parameters</h3>
+      <p>
+        It was a lot easier to control color using HSB (hue, saturation, brightness) instead of RGB. The circles ended
+        up being determined as follows: - Each emotion was associated with a color (hue range) - The relative
+        frequencies of each emotion determined the transparency of its respective color (emotions appearing more often
+        had a higher alpha value) - The amount of positive vs negative sentiment influenced brightness (mostly negative:
+        between 60-80; mostly positive: between 85-100) - Saturation, circle size and circle position were kept entirely
+        random - There was an equal number of circles for each emotion (regardless of frequency)
+      </p>
+      <p>
+        Fairly happy with the results from these parameters, but it would be nice to experiment with them a little more.
+        For example, I’d like to try lowering brightness for the more “negative” emotions (fear, sadness, anger,
+        disgust) instead of having brightness purely be a function of overall sentiment.
+      </p>
+      <h3>Plutchik’s wheel of emotions</h3>
+      <p>
+        I discovered this by accident when I did an image search for “emotion colors”, and it was a useful way to
+        determine what colors to give each emotion. Here’s what it looks like:
+      </p>
+      <figure>
+        <p>
+          <picture
+            ><source
+              type="image/webp"
+              srcset="
+                /.11ty/image/?src=src%2Fstatic%2Fimages%2Fplutchiks-wheel.png&width=300&format=webp&via=transform 300w,
+                /.11ty/image/?src=src%2Fstatic%2Fimages%2Fplutchiks-wheel.png&width=500&format=webp&via=transform 500w
+              "
+              sizes="auto" />
+            <img
+              loading="lazy"
+              decoding="async"
+              src="/.11ty/image/?src=src%2Fstatic%2Fimages%2Fplutchiks-wheel.png&width=300&format=png&via=transform"
+              alt="plutchik wheel image"
+              width="500"
+              height="479"
+              srcset="
+                /.11ty/image/?src=src%2Fstatic%2Fimages%2Fplutchiks-wheel.png&width=300&format=png&via=transform 300w,
+                /.11ty/image/?src=src%2Fstatic%2Fimages%2Fplutchiks-wheel.png&width=500&format=png&via=transform 500w
+              "
+              sizes="auto"
+          /></picture>
+        </p>
+      </figure>
+      <p>
+        The second ring of the wheel exactly matches the eight emotions from the NRC Emotion Lexicon (according to
+        Plutchik, they are the “eight primary emotions”). So the hue ranges for each emotion were just set to their
+        respective colors on the wheel.
+      </p>
+      <p>
+        Not sure if the colors themselves were assigned for a reason - I’m thinking it might be arbitrary, and the
+        relative positions of each emotion on the wheel is the important thing. The emotions next to each other are
+        meant to be related, and the ones on opposite ends of the wheel are supposed to complement each other (anger vs
+        fear, joy vs sadness, and so on).
+      </p>
+      <p>
+        Some of the “combination” emotions between the spokes on the wheel feel a little iffy to me, though. I get some
+        of them – contempt seems like disgust/anger, and optimism seems like anticipation/joy – but is remorse really a
+        mix of disgust and sadness? Is awe really fear and surprise? I understand surprise, but I’m not sure about the
+        fear part?
+      </p>
+      <p>
+        <a href="https://en.wikipedia.org/wiki/Robert_Plutchik#Plutchik's_wheel_of_emotions"
+          >The Wikipedia page on Plutchik</a
+        >
+        has more information about his theory of emotions as well as his wheel of emotions.
+      </p>
+      <h2>The final result</h2>
+      <h3>Some examples</h3>
+      <p>The bulk of my testing was on quotes from Terry Pratchett’s <em>Discworld</em> series. Here are a few more:</p>
+      <p><strong>Example 2</strong></p>
+      <p>
+        Input:
+        <code
+          >&quot;Light thinks it travels faster than anything, but it is wrong. No matter how fast light travels, it
+          finds the darkness has always got there first, and is waiting for it.&quot;</code
+        >
+      </p>
+      <figure>
+        <p>
+          <picture
+            ><source
+              type="image/webp"
+              srcset="
+                /.11ty/image/?src=src%2Fstatic%2Fimages%2Flight-dark.png&width=300&format=webp&via=transform 300w,
+                /.11ty/image/?src=src%2Fstatic%2Fimages%2Flight-dark.png&width=400&format=webp&via=transform 400w
+              "
+              sizes="auto" />
+            <img
+              loading="lazy"
+              decoding="async"
+              src="/.11ty/image/?src=src%2Fstatic%2Fimages%2Flight-dark.png&width=300&format=png&via=transform"
+              alt="light dark image"
+              width="400"
+              height="266"
+              srcset="
+                /.11ty/image/?src=src%2Fstatic%2Fimages%2Flight-dark.png&width=300&format=png&via=transform 300w,
+                /.11ty/image/?src=src%2Fstatic%2Fimages%2Flight-dark.png&width=400&format=png&via=transform 400w
+              "
+              sizes="auto"
+          /></picture>
+        </p>
+      </figure>
+      <p><strong>Example 3</strong></p>
+      <p>Input: <code>&quot;Evil begins when you begin to treat people as things.&quot;</code></p>
+      <figure class="left">
+        <p>
+          <picture
+            ><source
+              type="image/webp"
+              srcset="
+                /.11ty/image/?src=src%2Fstatic%2Fimages%2Fpeople-things.png&width=300&format=webp&via=transform 300w,
+                /.11ty/image/?src=src%2Fstatic%2Fimages%2Fpeople-things.png&width=400&format=webp&via=transform 400w
+              "
+              sizes="auto" />
+            <img
+              loading="lazy"
+              decoding="async"
+              src="/.11ty/image/?src=src%2Fstatic%2Fimages%2Fpeople-things.png&width=300&format=png&via=transform"
+              alt="people things image"
+              width="400"
+              height="337"
+              srcset="
+                /.11ty/image/?src=src%2Fstatic%2Fimages%2Fpeople-things.png&width=300&format=png&via=transform 300w,
+                /.11ty/image/?src=src%2Fstatic%2Fimages%2Fpeople-things.png&width=400&format=png&via=transform 400w
+              "
+              sizes="auto"
+          /></picture>
+        </p>
+      </figure>
+      <p><strong>Example 4</strong></p>
+      <p>
+        Input:
+        <code
+          >&quot;Humans need fantasy to be human. To be the place where the falling angel meets the rising
+          ape.&quot;</code
+        >
+      </p>
+      <figure>
+        <p>
+          <picture
+            ><source
+              type="image/webp"
+              srcset="
+                /.11ty/image/?src=src%2Fstatic%2Fimages%2Fhumans-fantasy.png&width=300&format=webp&via=transform 300w,
+                /.11ty/image/?src=src%2Fstatic%2Fimages%2Fhumans-fantasy.png&width=400&format=webp&via=transform 400w
+              "
+              sizes="auto" />
+            <img
+              loading="lazy"
+              decoding="async"
+              src="/.11ty/image/?src=src%2Fstatic%2Fimages%2Fhumans-fantasy.png&width=300&format=png&via=transform"
+              alt="humans fantasy image"
+              width="400"
+              height="368"
+              srcset="
+                /.11ty/image/?src=src%2Fstatic%2Fimages%2Fhumans-fantasy.png&width=300&format=png&via=transform 300w,
+                /.11ty/image/?src=src%2Fstatic%2Fimages%2Fhumans-fantasy.png&width=400&format=png&via=transform 400w
+              "
+              sizes="auto"
+          /></picture>
+        </p>
+      </figure>
+      <h3>Things to improve on / where to go from here</h3>
+      <ul>
+        <li>
+          Minor fixes to how the circles are drawn. Right now all the circles for a single emotion are drawn at once, so
+          later colors can end up overlapping earlier ones. Apart from that, there are slight color changes that would
+          be nice to make (adjusting brightness for more negative emotions as discussed earlier, and also distinguishing
+          fear from trust a little better)
+        </li>
+        <li>
+          Test this out on things like news articles to see what proportions of different emotions are present, and also
+          to see how emotionally similar comments to articles are to the articles themselves.
+        </li>
+        <li>
+          Try looking into NLP models again, and/or attempt to build one for emotion classification and see how well it
+          does.
+        </li>
+      </ul>
+      <p><strong>References:</strong></p>
+      <p>
+        <a href="https://kellylougheed.medium.com/generative-art-with-p5-js-program-your-own-art-6a6ac7e57d87"
+          >https://kellylougheed.medium.com/generative-art-with-p5-js-program-your-own-art-6a6ac7e57d87</a
+        >
+      </p>
+      <p>
+        <a href="https://saifmohammad.com/WebPages/NRC-Emotion-Lexicon.htm"
+          >https://saifmohammad.com/WebPages/NRC-Emotion-Lexicon.htm</a
+        >
+      </p>
+      <p>
+        <a href="https://en.wikipedia.org/wiki/Robert_Plutchik#Plutchik's_wheel_of_emotions"
+          >https://en.wikipedia.org/wiki/Robert_Plutchik#Plutchik's_wheel_of_emotions</a
+        >
+      </p>
+      <p>Created while participating at the <a href="https://www.recurse.com/">Recurse Center</a>!</p>
+    </main>
+
+    <footer>
+      <hr />
+      <p>All views expressed here are my own.</p>
+      <p><a href="https://www.11ty.dev/">Made with Eleventy</a></p>
+    </footer>
+  </body>
+</html>
