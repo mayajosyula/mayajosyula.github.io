@@ -211,6 +211,7 @@ body {
     display: flex;
     justify-content: space-between;
     margin-bottom: 48px;
+    gap: 24px;
   }
 
   footer {
@@ -221,7 +222,7 @@ body {
 
 @media only screen and (max-width: 640px) {
   body {
-    padding: 24px;
+    padding: 36px;
     figure {
       &::before {
         box-shadow: 0 1px 2px var(--shadow-accent-color);
@@ -235,8 +236,16 @@ body {
       box-shadow: -2px 2px 5px var(--shadow-accent-color);
     }
 
+    .homepage {
+      flex-direction: column;
+      .content {
+        max-width: 100%;
+      }
+    }
+
     header {
       margin-bottom: 24px;
+      gap: 24px;
     }
 
     footer {

@@ -23,8 +23,8 @@
         <a class="relative" href="/sitemap">Sitemap</a>
       </nav>
       <div>
-        <a href="https://github.com/mayajosyula">GitHub</a>
-        <a href="https://www.linkedin.com/in/maya-josyula">LinkedIn</a>
+        <a href="https://github.com/mayajosyula" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/maya-josyula" target="_blank">LinkedIn</a>
       </div>
     </header>
     <main>
@@ -63,7 +63,10 @@
       </ul>
       <h2>Why I was motivated to try this</h2>
       <ul>
-        <li>I wanted to do the <a href="https://course.fast.ai/">fast.ai course</a></li>
+        <li>
+          I wanted to do the
+          <a href="https://course.fast.ai/" target="_blank" rel="noopener noreferrer">fast.ai course</a>
+        </li>
         <li>Getting GPU instances on Paperspace Gradient is annoyingly difficult unless you pay</li>
         <li>My laptop has a NVIDIA graphics card</li>
         <li>
@@ -90,6 +93,8 @@
       <p>
         <a
           href="https://developer.nvidia.com/cuda-10.2-download-archive?target_os=Windows&amp;target_arch=x86_64&amp;target_version=10&amp;target_type=exelocal"
+          target="_blank"
+          rel="noopener noreferrer"
           >Here is the page</a
         >
         for CUDA version 10.2, which is a 2.6GB exe file. (There are also two patches that need to be installed on top
@@ -114,9 +119,11 @@
         Developer Program if you select it.
       </p>
       <p>
-        <a href="https://developer.nvidia.com/rdp/cudnn-download">Here is the download page</a> for cuDNN. The download
-        is a .zip file, and if you extract it and open it up, you’ll find three subdirectories: <code>bin</code>,
-        <code>include</code>, and <code>lib</code>, each with a bunch of .dll files in them.
+        <a href="https://developer.nvidia.com/rdp/cudnn-download" target="_blank" rel="noopener noreferrer"
+          >Here is the download page</a
+        >
+        for cuDNN. The download is a .zip file, and if you extract it and open it up, you’ll find three subdirectories:
+        <code>bin</code>, <code>include</code>, and <code>lib</code>, each with a bunch of .dll files in them.
       </p>
       <p>
         These files need to go into the CUDA installation. There is probably an efficient way to do this (maybe
@@ -160,8 +167,10 @@ pip <span class="token function">install</span> fastai</code></pre>
       <h3>Launching the fast.ai course notebooks</h3>
       <p>
         The course notebooks can be found on the
-        <a href="https://github.com/fastai/fastbook">fastai book GitHub page</a>. I downloaded the repository as a .zip
-        file, then just launched Jupyter Notebooks and opened the notebook files up, and they seemed to display fine.
+        <a href="https://github.com/fastai/fastbook" target="_blank" rel="noopener noreferrer"
+          >fastai book GitHub page</a
+        >. I downloaded the repository as a .zip file, then just launched Jupyter Notebooks and opened the notebook
+        files up, and they seemed to display fine.
       </p>
       <h3>Installing fastbook and graphviz</h3>
       <p>
@@ -170,10 +179,11 @@ pip <span class="token function">install</span> fastai</code></pre>
       </p>
       <p>
         This was really misleading, because running <code>conda install fastbook</code> and variations of that ended up
-        giving me errors. The <a href="http://forums.fast.ai/">fast.ai forums</a> has a bunch of threads discussing it,
-        all with different fixes that ended up working for different people? Maybe it’s a computer-specific thing. The
-        fix that worked for me was adding <code>!pip install graphviz</code> to the second line of the Jupyter notebook.
-        So now the first cell looks like:
+        giving me errors. The
+        <a href="http://forums.fast.ai/" target="_blank" rel="noopener noreferrer">fast.ai forums</a> has a bunch of
+        threads discussing it, all with different fixes that ended up working for different people? Maybe it’s a
+        computer-specific thing. The fix that worked for me was adding <code>!pip install graphviz</code> to the second
+        line of the Jupyter notebook. So now the first cell looks like:
       </p>
       <pre class="language-python"><code class="language-python"><span class="token comment">#hide</span>
 !pip install <span class="token operator">-</span>Uqq fastbook
@@ -304,54 +314,78 @@ learn<span class="token punctuation">.</span>fine_tune<span class="token punctua
       </p>
       <p><strong>References:</strong></p>
       <p>
-        <a href="https://lazyprogrammer.me/how-to-setup-nvidia-gpu-laptop-with-ubuntu-for-deep-learning-cuda-and-cudnn/"
+        <a
+          href="https://lazyprogrammer.me/how-to-setup-nvidia-gpu-laptop-with-ubuntu-for-deep-learning-cuda-and-cudnn/"
+          target="_blank"
+          rel="noopener noreferrer"
           >https://lazyprogrammer.me/how-to-setup-nvidia-gpu-laptop-with-ubuntu-for-deep-learning-cuda-and-cudnn/</a
         >
       </p>
       <p>
         <a
           href="https://towardsdatascience.com/intro-to-fastai-installation-and-building-our-first-classifier-938e95fd97d3"
+          target="_blank"
+          rel="noopener noreferrer"
           >https://towardsdatascience.com/intro-to-fastai-installation-and-building-our-first-classifier-938e95fd97d3</a
         >
       </p>
       <p>
         <a
           href="https://towardsdatascience.com/an-utterly-simple-guide-on-installing-tensorflow-gpu-2-0-on-windows-10-198368dc07a1"
+          target="_blank"
+          rel="noopener noreferrer"
           >https://towardsdatascience.com/an-utterly-simple-guide-on-installing-tensorflow-gpu-2-0-on-windows-10-198368dc07a1</a
         >
       </p>
       <p>
-        <a href="https://stackoverflow.com/questions/48152674/how-to-check-if-pytorch-is-using-the-gpu"
+        <a
+          href="https://stackoverflow.com/questions/48152674/how-to-check-if-pytorch-is-using-the-gpu"
+          target="_blank"
+          rel="noopener noreferrer"
           >https://stackoverflow.com/questions/48152674/how-to-check-if-pytorch-is-using-the-gpu</a
         >
       </p>
       <p>
-        <a href="https://forums.fast.ai/t/resolving-issues-with-fastai-on-windows-10-anaconda-due-to-torch-1-8/86875"
+        <a
+          href="https://forums.fast.ai/t/resolving-issues-with-fastai-on-windows-10-anaconda-due-to-torch-1-8/86875"
+          target="_blank"
+          rel="noopener noreferrer"
           >https://forums.fast.ai/t/resolving-issues-with-fastai-on-windows-10-anaconda-due-to-torch-1-8/86875</a
         >
       </p>
       <p>
-        <a href="https://forums.fast.ai/t/missing-graphviz-please-run-conda-install-fastbook/77260/24"
+        <a
+          href="https://forums.fast.ai/t/missing-graphviz-please-run-conda-install-fastbook/77260/24"
+          target="_blank"
+          rel="noopener noreferrer"
           >https://forums.fast.ai/t/missing-graphviz-please-run-conda-install-fastbook/77260/24</a
         >
       </p>
       <p>
-        <a href="https://forums.fast.ai/t/part1-2020-02-production-found-at-least-two-devices-cuda-0-and-cpu/87253"
+        <a
+          href="https://forums.fast.ai/t/part1-2020-02-production-found-at-least-two-devices-cuda-0-and-cpu/87253"
+          target="_blank"
+          rel="noopener noreferrer"
           >https://forums.fast.ai/t/part1-2020-02-production-found-at-least-two-devices-cuda-0-and-cpu/87253</a
         >
       </p>
       <p>
-        <a href="https://forums.fast.ai/t/cuda-out-of-memory/45499/4"
+        <a href="https://forums.fast.ai/t/cuda-out-of-memory/45499/4" target="_blank" rel="noopener noreferrer"
           >https://forums.fast.ai/t/cuda-out-of-memory/45499/4</a
         >
       </p>
-      <p>Created while participating at the <a href="https://www.recurse.com/">Recurse Center</a>!</p>
+      <p>
+        Created while participating at the
+        <a href="https://www.recurse.com/" target="_blank" rel="noopener noreferrer">Recurse Center</a>!
+      </p>
     </main>
 
     <footer>
       <hr />
       <p>All views expressed here are my own.</p>
-      <p><a href="https://www.11ty.dev/">Made with Eleventy</a></p>
+      <p>
+        <a href="https://www.11ty.dev/" target="_blank">Made with Eleventy</a>
+      </p>
     </footer>
   </body>
 </html>
